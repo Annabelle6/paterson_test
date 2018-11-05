@@ -20,15 +20,31 @@ ui <- fluidPage(
    
    # Sidebar with a slider input for number of bins 
    sidebarLayout(
-      sidebarPanel(),
+      sidebarPanel(
+        # Input: Numeric entry for number of obs to view ----
+        numericInput(inputId = "nobs",
+                     label = "Number of observations to view:",
+                     value = 10)
+        
+      ),
       
       # Show a plot of the generated distribution
-      mainPanel()
+      mainPanel(
+        
+        tableOutput("view")
+        
+      )
    )
 )
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {}
+server <- function(input, output) {
+  
+  output$view <- renderTable({
+    head(x, n = input$nobs)
+  })
+  
+}
 
 # Run the application 
 shinyApp(ui = ui, server = server)
